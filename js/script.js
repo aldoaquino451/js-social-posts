@@ -3,10 +3,10 @@
 
   // 1. Costruiamo l'array posts di oggetti post
   // 2. Cicliamo l'array posts per stampare ogni oggetto post all'interno dell'html
-  3. Associamo al click del  bottone dei like la funzione per aumentare i like e cambiare colore
-  - diamo un counter ai likes
-  - al click il counter aumenta 
-  - aggiungiamo una classe liked per cambiare colore 
+  // 3. Associamo al click del  bottone dei like la funzione per aumentare i like e cambiare colore
+  //    - aggiungiamo una classe liked per cambiare colore 
+  //    - diamo un counter ai likes
+  //    - al click il counter aumenta 
   4. al click parte una seconda funzione che filtra gli elementi che hanno la classe liked
   - restituiamo un array con tutti gli oggetti liked
   5. formattare le date
@@ -45,9 +45,12 @@
 const container = document.getElementById('container');
 container.innerHTML = '';
 
-createPosts();
+init();
 
+const likesBtnArr = document.querySelectorAll('.js-like-button');
+const likesNumbArr = document.querySelectorAll('.js-likes-counter');
 
+toggleLike();
 
 
 
@@ -56,17 +59,40 @@ createPosts();
 -------------------*/
 
 
+/* - CREATE POSTS - Crea nuovi post con i dati del database */
 
-function createPosts () {
-  posts.forEach( (post) => {
+function init() {
 
-    printPost(post)
-    
+  posts.forEach(post => {
+    printPost(post); 
   });
 
 };
 
+/* - TOGGLE-LIKE - Cambia il colore al bottone e il numero al counter dei like*/
 
+function toggleLike() {
+  likesBtnArr.forEach((btn, i) => {
+    btn.addEventListener('click', function() {
+      
+      let likesCounter = likesNumbArr[i].innerHTML;
+  
+      if (!btn.classList.contains('js-liked')) {
+        btn.classList.add('js-liked');
+        likesCounter ++;
+      }
+      else {
+        btn.classList.remove('js-liked');
+        likesCounter --;  
+      }
+      
+      likesNumbArr[i].innerHTML = likesCounter;
+  
+    });
+  });
+};
+
+/* - PRINT-POST - Stampa tutti gli elementi HTML di ogni Post usando i dati del database*/
 
 function printPost(post) {
   const {author, created, content, media, likes, id} = post;
@@ -86,31 +112,26 @@ function printPost(post) {
     </div>
     <div class="post__text">${content}</div>
     <div class="post__image">
-      <img src="${media}" alt="" />
+      <img src="${media}" alt=""/>
     </div>
     <div class="post__footer">
       <div class="likes js-likes">
         <div class="likes__cta">
           <a class="like-button js-like-button" href="#" data-postid="${id}">
-            <i
-              class="like-button__icon fas fa-thumbs-up"
-              aria-hidden="true"
-            ></i>
+            <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
             <span class="like-button__label">Mi Piace</span>
           </a>
         </div>
         <div class="likes__counter">
           Piace a
-          <b id="like-counter-1" class="js-likes-counter">${likes}</b> persone
+          <b id="like-counter-${id}" class="js-likes-counter">${likes}</b> persone
         </div>
       </div>
     </div>
-
   </div>
   `;
 
-  
-}
+};
 
 
 
