@@ -1,12 +1,6 @@
 
 /*
 
-  // 1. Costruiamo l'array posts di oggetti post
-  // 2. Cicliamo l'array posts per stampare ogni oggetto post all'interno dell'html
-  // 3. Associamo al click del  bottone dei like la funzione per aumentare i like e cambiare colore
-  //    - aggiungiamo una classe liked per cambiare colore 
-  //    - diamo un counter ai likes
-  //    - al click il counter aumenta 
   4. al click parte una seconda funzione che filtra gli elementi che hanno la classe liked
   - restituiamo un array con tutti gli oggetti liked
   5. formattare le date
@@ -47,36 +41,35 @@ container.innerHTML = '';
 
 init();
 
+const postArr = document.querySelectorAll('.post');
+// console.log(postsArr[1].id);   
+
 const likesBtnArr = document.querySelectorAll('.js-like-button');
 const likesNumbArr = document.querySelectorAll('.js-likes-counter');
 
-toggleLike();
+addRemoveLike();
 
 
 
+const newarray = postArr.filter( (id) => {
+  return id >0;
+})
+
+console.log(newarray);
 /*-------------------
      FUNCTIONS 
 -------------------*/
 
-
-/* - CREATE POSTS - Crea nuovi post con i dati del database */
-
-function init() {
-
-  posts.forEach(post => {
-    printPost(post); 
-  });
-
-};
+/* ------------------------- */
 
 /* - TOGGLE-LIKE - Cambia il colore al bottone e il numero al counter dei like*/
 
-function toggleLike() {
+function addRemoveLike() {
   likesBtnArr.forEach((btn, i) => {
     btn.addEventListener('click', function() {
       
       let likesCounter = likesNumbArr[i].innerHTML;
-  
+
       if (!btn.classList.contains('js-liked')) {
         btn.classList.add('js-liked');
         likesCounter ++;
@@ -87,10 +80,13 @@ function toggleLike() {
       }
       
       likesNumbArr[i].innerHTML = likesCounter;
-  
+      
+
+
     });
   });
 };
+
 
 /* - PRINT-POST - Stampa tutti gli elementi HTML di ogni Post usando i dati del database*/
 
@@ -98,7 +94,7 @@ function printPost(post) {
   const {author, created, content, media, likes, id} = post;
 
   container.innerHTML += ` 
-  <div class="post">
+  <div class="post" id="${id}">
     <div class="post__header">
       <div class="post-meta">
         <div class="post-meta__icon">
@@ -131,9 +127,20 @@ function printPost(post) {
   </div>
   `;
 
+
+
 };
 
 
+/* - CREATE POSTS - Crea nuovi post con i dati del database */
+
+function init() {
+
+  posts.forEach(post => {
+    printPost(post); 
+  });
+
+};
 
 
 
