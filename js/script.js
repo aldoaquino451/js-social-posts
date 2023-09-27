@@ -43,6 +43,8 @@ const likesNumbArr = document.querySelectorAll('.js-likes-counter');
 function addRemoveLike() {
   likesBtnArr.forEach((btn, i) => {
     btn.addEventListener('click', function() {
+
+      event.preventDefault();
       
       let likesCounter = likesNumbArr[i].innerHTML;
 
@@ -56,12 +58,48 @@ function addRemoveLike() {
       }
       
       likesNumbArr[i].innerHTML = likesCounter;
-      
-
 
     });
   });
 };
+
+
+/* - STAMPA DATA - Stamp un valore diverso alla data */
+
+function getAuthorImage(author) {
+  const {name, image} = author;
+  return `<img class="profile-pic" src="${image}" alt="${name}"/>`
+}
+
+
+/* - STAMPA INIZIALI - Stampa una stringa al posto dell'immagine profilo */
+
+function getAuthorInitial() {
+  const { name } = author;
+  const letters = name.split(' ').map( nameSplit => nameSplit[0])
+
+  const initials = letters.join('');
+
+  return `
+  <div class="profile-pic-default">
+    <span>${initials}</span>
+  </div>
+  `;
+
+}
+
+
+/* - STAMPA DATA - Stamp un valore diverso alla data */
+
+function getDateFormatted(dateStr) {
+  
+  // dateStr = 2020-06-09
+  // split('-')  -->  [2020, 06, 09]
+  // reverse()  -->  [09, 06, 2020]
+  // join('-')  --> 09-06-2020
+
+  return dateStr.split('-').reverse().join('/');
+}
 
 
 /* - PRINT-POST - Stampa tutti gli elementi HTML di ogni Post usando i dati del database*/
